@@ -23,7 +23,7 @@ int main(void) {
         int count = tokenize(input, args);
         if (count == 0) continue;
 
-        execute(args);  /* run the command! */
+        execute(args);  
     }
     return 0;
 }

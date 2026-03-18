@@ -12,8 +12,7 @@ int execute(char **args) {
     pid = fork();
 
     if (pid == 0) {
-        execvp(args[0], args);
-        
+        execvp(args[0],args);
         perror("mysh: execvp");
         exit(1);  
     } 
