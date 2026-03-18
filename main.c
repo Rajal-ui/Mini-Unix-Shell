@@ -6,6 +6,8 @@
 
 #define MAX_INPUT 1024
 
+int last_exit_status = 0;
+
 int main(void) {
     char input[MAX_INPUT];
     char *args[MAX_ARGS];
@@ -23,7 +25,7 @@ int main(void) {
         int count = tokenize(input, args);
         if (count == 0) continue;
 
-        execute(args);  
+        last_exit_status = execute(args); 
     }
     return 0;
 }

@@ -13,8 +13,8 @@ int execute(char **args) {
 
     if (pid == 0) {
         execvp(args[0],args);
-        perror("mysh: execvp");
-        exit(1);  
+        fprintf(stderr, "mysh: %s: command not found\n", args[0]);
+        exit(127);  
     } 
     else if (pid > 0) {
         waitpid(pid, &status, 0);      
