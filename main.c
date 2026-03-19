@@ -25,6 +25,10 @@ int main(void) {
         int count = tokenize(input, args);
         if (count == 0) continue;
 
+        if (run_builtin(args) == 1) {
+        continue;  
+        }
+
         last_exit_status = execute(args); 
     }
     return 0;
