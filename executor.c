@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include "parser.h"
 #include <fcntl.h> 
 
 int execute(char **args, Redirect *redir) {

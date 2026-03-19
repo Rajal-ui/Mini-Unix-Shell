@@ -12,6 +12,7 @@ int last_exit_status = 0;
 int main(void) {
     char input[MAX_INPUT];
     char *args[MAX_ARGS];
+    Redirect redir;
 
     while (1) {
         printf("mysh$ ");
@@ -25,7 +26,6 @@ int main(void) {
         input[strcspn(input, "\n")] = '\0';
         if (input[0] == '\0') continue;
 
-        Redirect redir;
         int count = tokenize(input, args, &redir);
         if (count == 0) continue;
 

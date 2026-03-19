@@ -5,17 +5,20 @@
 #include <unistd.h>
 
 static void builtin_cd(char **args) {
-    if (args[1] != NULL && args[2] != NULL) {
-        fprintf(stderr, "mysh: cd: too many arguments\n");
-        return;
-    
+    char *path;                       
+
+    if (args[1] == NULL) {
+        path = getenv("HOME");
+        if (path == NULL) {
+            fprintf(stderr, "mysh: cd: HOME not set\n");
+            return;
+        }
     } else {
         path = args[1];
     }
 
-    if (chdir(path) != 0) {
+    if (chdir(path) != 0)
         fprintf(stderr, "mysh: cd: %s: No such file or directory\n", path);
-    }
 }
 
 static void builtin_pwd(void) {
