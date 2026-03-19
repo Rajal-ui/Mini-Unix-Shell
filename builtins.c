@@ -3,15 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-static void builtin_cd(char **args) {
-    char *path;
 
-    if (args[1] == NULL) {
-        path = getenv("HOME");
-        if (path == NULL) {
-            fprintf(stderr, "mysh: cd: HOME not set\n");
-            return;
-        }
+static void builtin_cd(char **args) {
+    if (args[1] != NULL && args[2] != NULL) {
+        fprintf(stderr, "mysh: cd: too many arguments\n");
+        return;
+    
     } else {
         path = args[1];
     }
@@ -33,7 +30,7 @@ static void builtin_pwd(void) {
 static void builtin_exit(char **args) {
     int code = 0;
     if (args[1] != NULL) {
-        code = atoi(args[1]);  /* atoi converts "42" → 42 */
+        code = atoi(args[1]); 
     }
     exit(code);
 }

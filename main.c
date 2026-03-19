@@ -3,7 +3,7 @@
 #include <string.h>
 #include "parser.h"
 #include "executor.h"
-#include "builtins.h
+#include "builtins.h"
 
 #define MAX_INPUT 1024
 
@@ -18,8 +18,10 @@ int main(void) {
         fflush(stdout);
 
         if (fgets(input, MAX_INPUT, stdin) == NULL) {
-            printf("\n"); break;
+            printf("\n");
+            break;
         }
+
         input[strcspn(input, "\n")] = '\0';
         if (input[0] == '\0') continue;
 
@@ -27,9 +29,14 @@ int main(void) {
         int count = tokenize(input, args, &redir);
         if (count == 0) continue;
 
-        if (run_builtin(args) == 1) continue;
-        last_exit_status = execute(args,&redir);
+        int has_redirect = (redir.outfile != NULL || redir.infile != NULL);
+
+        if (!has_redirect && run_builtin(args) == 1) {
+            continue;
         }
+
+        last_exit_status = execute(args, &redir);
+    }
 
     return 0;
 }
