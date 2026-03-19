@@ -1,6 +1,6 @@
 #ifndef EXECUTOR_H
 #define EXECUTOR_H
+#include "parser.h"
 
-int execute(char **args);
-
+int execute(char **args, Redirect *redir);
 #endif
