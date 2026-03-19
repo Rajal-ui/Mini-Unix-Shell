@@ -2,6 +2,14 @@
 #define PARSER_H
 
 #define MAX_ARGS 64 
-int tokenize(char *input, char **args);
+
+typedef struct {
+    char *infile;   
+    char *outfile;  
+    int  append;  
+} Redirect;
+
+
+int tokenize(char *input, char **args, Redirect *redir);
 
 #endif
