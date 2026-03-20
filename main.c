@@ -4,6 +4,8 @@
 #include "parser.h"
 #include "executor.h"
 #include "builtins.h"
+#include "pipes.h"
+#include "signals.h"
 
 #define MAX_INPUT 1024
 
@@ -11,32 +13,28 @@ int last_exit_status = 0;
 
 int main(void) {
     char input[MAX_INPUT];
-    char *args[MAX_ARGS];
-    Redirect redir;
+    Command cmds[MAX_PIPES];
+
+    setup_signals();
 
     while (1) {
         printf("mysh$ ");
         fflush(stdout);
 
         if (fgets(input, MAX_INPUT, stdin) == NULL) {
-            printf("\n");
-            break;
+            printf("\n"); break;
         }
-
         input[strcspn(input, "\n")] = '\0';
         if (input[0] == '\0') continue;
 
-        int count = tokenize(input, args, &redir);
-        if (count == 0) continue;
+        int num_cmds = parse_pipeline(input, cmds);
+        if (num_cmds == 0) continue;
 
-        int has_redirect = (redir.outfile != NULL || redir.infile != NULL);
-
-        if (!has_redirect && run_builtin(args) == 1) {
+        int has_redirect = (cmds[0].redir.outfile || cmds[0].redir.infile);
+        if (num_cmds == 1 && !has_redirect && run_builtin(cmds[0].args) == 1)
             continue;
-        }
 
-        last_exit_status = execute(args, &redir);
+        last_exit_status = execute_pipeline(cmds, num_cmds);
     }
-
     return 0;
 }
