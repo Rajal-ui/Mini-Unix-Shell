@@ -33,3 +33,18 @@ int tokenize(char *input, char **args, Redirect *redir) {
     args[count] = NULL;
     return count;
 }
+
+int parse_pipeline(char *input, Command cmds[]) {
+    int num_cmds = 0;
+    
+    char *segment = strtok(input, "|");
+
+    while (segment != NULL && num_cmds < MAX_PIPES) {
+       
+        tokenize(segment, cmds[num_cmds].args,
+                          &cmds[num_cmds].redir);
+        num_cmds++;
+        segment = strtok(NULL, "|");
+    }
+    return num_cmds;
+}
